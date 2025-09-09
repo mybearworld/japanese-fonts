@@ -23,7 +23,7 @@ def main():
         gvar.variations[ghiragana] = copy.deepcopy(gvar.variations[gkatakana])
         hmtx.metrics[ghiragana] = hmtx.metrics[gkatakana]
 
-    subsetter = subset.Subsetter(subset.Options())
+    subsetter = subset.Subsetter(subset.Options(drop_tables=["BASE", "GSUB"]))
     subsetter.populate(glyphs={*wanted_glyphs})
     subsetter.subset(font)
 
