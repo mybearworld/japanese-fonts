@@ -7,6 +7,12 @@ FONTS = {
     "src/NotoSansJP-VariableFont_wght.ttf": "out/NotoSansJPAllKatakana.ttf",
     "src/YujiSyuku-Regular.ttf": "out/YujiSyukuAllKatakana.ttf",
 }
+NAME_REPLACEMENTS = {
+    "Noto Sans JP": "Noto Sans JP All Katakana",
+    "NotoSansJP": "NotoSansJPAllKatakana",
+    "Yuji Syuku": "Yuji Syuku All Katakana",
+    "YujiSyuku": "YujiSyukuAllKatakana",
+}
 
 
 def glyph_name(glyph: str) -> str:
@@ -31,13 +37,11 @@ def handle(source: str, dest: str):
     subsetter.subset(font)
 
     for name_record in name.names:
-        name_record.string = name_record.string.replace(
-            "Noto Sans JP".encode("utf-16-be"),
-            "Noto Sans JP All Katakana".encode("utf-16-be"),
-        ).replace(
-            "NotoSansJP".encode("utf-16-be"),
-            "NotoSansJPAllKatakana".encode("utf-16-be"),
-        )
+        for original, replacement in NAME_REPLACEMENTS.items():
+            name_record.string = name_record.string.replace(
+                original.encode("utf-16-be"),
+                replacement.encode("utf-16-be"),
+            )
 
     font.save(dest)
 
